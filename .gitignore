@@ -22,3 +22,8 @@ erl_crash.dump
 # Ignore package tarball (built via "mix hex.build").
 manabot-*.tar
 
+# Ignore secrets
+*secret.exs
+
+# Ignore VS Code Stuff
+/.elixir_ls
