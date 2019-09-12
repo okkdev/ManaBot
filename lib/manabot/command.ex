@@ -28,37 +28,39 @@ defmodule Manabot.Command do
 
   @hours """
   Closed
-  16:00 - 00:00
-  16:00 - 00:00
-  16:00 - 00:00
-  16:00 - 02:00
-  10:00 - 02:00
-  10:00 - 22:00
+  17:00 - 23:30
+  17:00 - 23:30
+  17:00 - 23:30
+  17:00 - 01:00
+  11:00 - 01:00
+  13:00 - 22:00
   """
 
   @stunden """
   Geschlossen
-  16:00 - 00:00
-  16:00 - 00:00
-  16:00 - 00:00
-  16:00 - 02:00
-  10:00 - 02:00
-  10:00 - 22:00
+  17:00 - 23:30
+  17:00 - 23:30
+  17:00 - 23:30
+  17:00 - 01:00
+  11:00 - 01:00
+  13:00 - 22:00
   """
 
   def handle(msg) do
+    content = String.downcase(msg.content)
+
     cond do
       msg.content == "!!ping" ->
-        Api.create_message(msg.channel_id, "pong")
+        Api.create_message(msg.channel_id, "pyongyang")
 
-      String.contains?(String.downcase(msg.content), "opening hours") ->
-        openinghours(msg, "en")
+      String.contains?(content, "opening hours") ->
+        openinghours(msg, :en)
 
-      String.contains?(String.downcase(msg.content), "öffnungs") ->
-        openinghours(msg, "de")
+      String.contains?(content, "öffnungs") ->
+        openinghours(msg, :de)
 
-      String.contains?(String.downcase(msg.content), "öffnigs") ->
-        openinghours(msg, "de")
+      String.contains?(content, "öffnigs") ->
+        openinghours(msg, :de)
 
       true ->
         :ignore
@@ -66,24 +68,21 @@ defmodule Manabot.Command do
   end
 
   def openinghours(msg, lang) do
-    case lang do
-      "en" ->
-        embedmsg =
+    embedmsg =
+      case lang do
+        :en ->
           %Nostrum.Struct.Embed{}
           |> put_title("Opening hours")
           |> put_field("Days", @days, true)
           |> put_field("Hours", @hours, true)
 
-        Api.create_message(msg.channel_id, embed: embedmsg)
-
-      "de" ->
-        embedmsg =
+        :de ->
           %Nostrum.Struct.Embed{}
           |> put_title("Öffnungszeiten")
           |> put_field("Tage", @tage, true)
           |> put_field("Zeiten", @stunden, true)
+      end
 
-        Api.create_message(msg.channel_id, embed: embedmsg)
-    end
+    Api.create_message(msg.channel_id, embed: embedmsg)
   end
 end
