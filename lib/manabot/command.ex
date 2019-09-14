@@ -1,8 +1,4 @@
 defmodule Manabot.Command do
-  @moduledoc """
-  The code in this module sucks and it hurts
-  """
-
   alias Nostrum.Api
   import Nostrum.Struct.Embed
 
