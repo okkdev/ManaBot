@@ -22,7 +22,7 @@ defmodule Manabot.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:nostrum, git: "https://github.com/Kraigie/nostrum.git"}
+      {:nostrum, "~> 0.4.1"}
     ]
   end
 end
